@@ -1,6 +1,6 @@
 start = "Hi I am a bot to match you to a roomate that you will benefit from. Please enter your gender."
 qn = ["What is your age?", 
-"What is your career aspiration?", 
+"What is your major?" 
 "What are your hobbies?", 
 "What time do you sleep? (24 hour format)", 
 "What time do you wake up? (24 hour format)", 

@@ -1,7 +1,7 @@
 from telegram import Update
 from telegram.ext import *
 import Constants as keys
-import responses as R
+from datetime import datetime
 
 print("Bot started...")
 
@@ -18,12 +18,30 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
     text = (update.message)
     # print(type(text))
     print(str(text))
-    response = R.sample_responses(str(text))
+    response = sample_responses(str(text))
 
     await update.message.reply_text(response)
 
 def error(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     print(f"Update {update} caused error {context.error}")
+
+def sample_responses(input_text):
+    user_message = str(input_text)
+    print(user_message)
+
+    if user_message in ("hello", "hi", "sup"):
+        return "Hey! How's it going?" 
+
+    elif user_message in ("who are you", "who are you?"):
+        return "I am a bot to match you to a roomate that you will benefit from."
+    
+    elif user_message in ("sleep"):
+        now = datetime.now()
+        date_time = now.strftime("%m/%d/%Y, %H:%M:%S")
+        return str("Goodnight! It is currently " + date_time)
+
+    else:
+        return "I do not understand you."
 
 def main():
     app = Application.builder().token(keys.API_KEY).build()
