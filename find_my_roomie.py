@@ -16,6 +16,10 @@ logging.basicConfig(
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await context.bot.send_message(chat_id=update.effective_chat.id, text= (d.start) + "\n...If I am not wrong your name is " + f"{update.effective_user.full_name}...")
 
+async def help(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await context.bot.send_message(chat_id=update.effective_chat.id, text= (d.help))
+
+
 async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE):
     global question_counter 
     await context.bot.send_message(chat_id=update.effective_chat.id, text= d.qn[question_counter])
@@ -34,11 +38,13 @@ if __name__ == '__main__':
     application = ApplicationBuilder().token(key.API_KEY).build()
     
     start_handler = CommandHandler('start', start)
+    help_handler = CommandHandler('help', help)
     echo_handler = MessageHandler(filters.TEXT & (~filters.COMMAND), echo)
     # caps_handler = CommandHandler('caps', caps)
     unknown_handler = MessageHandler(filters.COMMAND, unknown)
     
     application.add_handler(start_handler)
+    application.add_handler(help_handler)
     application.add_handler(echo_handler)
     # application.add_handler(caps_handler)
     application.add_handler(unknown_handler)
