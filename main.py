@@ -33,7 +33,7 @@ def main():
     app.add_handler(CommandHandler("help", help_command))
     app.add_handler(CommandHandler("hello", hello))
 
-    app.add_handler(MessageHandler(filters.ALL, handle_message))
+    app.add_handler(MessageHandler(filters.COMMAND, handle_message))
 
     app.add_error_handler(error)
     app.run_polling(0)
