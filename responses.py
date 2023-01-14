@@ -1,12 +1,11 @@
 from datetime import datetime
 
 def sample_responses(input_text):
-    user_message = str(input_text)
-    print(user_message)
+    user_message = str(input_text).lower()
 
     if user_message in ("hello", "hi", "sup"):
         return "Hey! How's it going?" 
-
+        
     elif user_message in ("who are you", "who are you?"):
         return "I am a bot to match you to a roomate that you will benefit from."
     
@@ -17,3 +16,4 @@ def sample_responses(input_text):
 
     else:
         return "I do not understand you."
+
