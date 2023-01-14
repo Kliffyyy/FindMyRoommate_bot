@@ -15,14 +15,16 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
     await update.message.reply_text('If you need help, you are in the wrong place...')
 
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    text = str(update.message).lower()
-    response = R.sample_responses(text)
+    text = (update.message)
+    # print(type(text))
+    print(str(text))
+    response = R.sample_responses(str(text))
 
     await update.message.reply_text(response)
-'''
+
 def error(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     print(f"Update {update} caused error {context.error}")
-'''
+
 def main():
     app = Application.builder().token(keys.API_KEY).build()
     
@@ -31,9 +33,9 @@ def main():
     app.add_handler(CommandHandler("help", help_command))
     app.add_handler(CommandHandler("hello", hello))
 
-    app.add_handler(MessageHandler(filters.TEXT, handle_message))
+    app.add_handler(MessageHandler(filters.ALL, handle_message))
 
-    #app.add_error_handler(error)
+    app.add_error_handler(error)
     app.run_polling(0)
 
 main()
