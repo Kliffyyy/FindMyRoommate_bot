@@ -12,7 +12,7 @@ def sample_responses(input_text):
         return "Hey! How's it going?" 
 
     elif user_message in who:
-        return "I am a bot to match you to a roomate that you will benefit from."
+        return "I am a bot to match you to a roommate that you will benefit from."
     
     elif user_message in sleep:
         now = datetime.now()
