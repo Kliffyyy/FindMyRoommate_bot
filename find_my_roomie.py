@@ -16,6 +16,7 @@ logger = logging.getLogger(__name__)
 GENDER, SLEEPTIME, SOCIALIZATION = range(3)
 
 
+'''
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user = update.effective_user
     lastName = user.last_name if user.last_name is not None else ''
@@ -33,6 +34,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
 
     return GENDER
+'''
 
 async def gender(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Stores the selected gender and asks for user's sleep time."""
