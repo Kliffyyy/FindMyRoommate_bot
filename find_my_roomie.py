@@ -1,3 +1,4 @@
+'''
 import logging
 from telegram import Update, ReplyKeyboardMarkup, ReplyKeyboardRemove
 from telegram.ext import (
@@ -16,7 +17,7 @@ logger = logging.getLogger(__name__)
 GENDER, SLEEPTIME, SOCIALIZATION = range(3)
 
 
-'''
+
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user = update.effective_user
     lastName = user.last_name if user.last_name is not None else ''
@@ -34,7 +35,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
 
     return GENDER
-'''
+
 
 async def gender(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Stores the selected gender and asks for user's sleep time."""
@@ -111,7 +112,6 @@ def main():
         states={
             GENDER: [MessageHandler(filters.Regex("^(Boy|Girl|Other)$"), gender)],
             SLEEPTIME: [MessageHandler(filters.Regex("^(before 10pm|10pm - 11pm|11pm - 12pm|12pm - 1am|1am - 2am|after 2am)$"), sleeptime)],
-            SOCIALIZATION: [MessageHandler(filters.Regex("^(I want to stay alone|quieter environment|no preference|more vibrant environment|party all night long)$"), socialization)]
         },
         fallbacks=[CommandHandler("cancel", cancel)],
     )
@@ -126,3 +126,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+'''

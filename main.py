@@ -3,11 +3,24 @@ from telegram.ext import *
 import Constants as keys
 import responses as R
 import time
-
+import logging
+from telegram import Update, ReplyKeyboardMarkup, ReplyKeyboardRemove
+from telegram.ext import (
+    ApplicationBuilder,
+    ContextTypes,
+    CommandHandler, ConversationHandler, MessageHandler,
+    filters
+)
 
 print("Bot started...")
 
-GENDER, FACULTY, SLEEPING_HOURS = range(3)
+logging.basicConfig(
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    level=logging.INFO
+)
+logger = logging.getLogger(__name__)
+
+GENDER, FACULTY, SLEEPING_HOURS, SOCIALIZATION = range(4)
 
 async def hello(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.message.reply_text(f'Hello {update.effective_user.first_name}')
@@ -39,7 +52,14 @@ async def faculty(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     time.sleep(1)
     reply_keyboard = [["before 9pm", "9-10pm", "10-11pm", "11-12am", "12-1am", "1-2am", "after 2am"]]
     await update.message.reply_text("Question 3: What are your sleeping hours? Available options: before 9pm, 9-10pm, 10-11pm, 11-12am, 12-1am, 1-2am, after 2am", reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True, input_field_placeholder="What are your sleeping hours?"), )
-    return SLEEPING_HOURS
+    return SOCIALIZATION
+
+async def socialization(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Stores the user's socialization preference and stops the conversation."""
+    user = update.message.from_user
+    lastName = user.last_name if user.last_name is not None else ''
+    firstName = user.first_name + ' ' if user.first_name is not None else ''
+    logger.info("Socialization preference of %s%s: %s", firstName, lastName, update.message.text)
 
 async def sleeping_hours(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     user = update.message.from_user
@@ -75,6 +95,7 @@ def main():
             GENDER: [MessageHandler(filters.Regex("^(Male|Female|Others)$"), gender)],
             FACULTY: [MessageHandler(filters.Regex("^(CHS|Business|Computing|Dentistry|CDE|Law|Medicine|Nursing|Pharmacy|NUS College|Music)$"), faculty)],
             SLEEPING_HOURS: [MessageHandler(filters.Regex("^(before 9pm|9-10pm|10-11pm|11-12am|12-1am|1-2am|after 2am)$"), sleeping_hours)],
+            SOCIALIZATION: [MessageHandler(filters.Regex("^(I want to stay alone|quieter environment|no preference|more vibrant environment|party all night long)$"), socialization)]
         }, 
         fallbacks=[CommandHandler("quit", quit)])
     
