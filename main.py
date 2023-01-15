@@ -29,7 +29,7 @@ async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> N
     await update.message.reply_text('Type something random to get started') 
 
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    await update.message.reply_text('If you need help, you are in the wrong place...')
+    await update.message.reply_text('/help for help\n/start to start the bot\n/quit to quit the bot\nplease chenk the description to know more about the bot')
 
 async def match_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     await update.message.reply_text("Please fill in the survey below to tell us what type of roommates suits you the best! You may also type /quit to quit the conversation!")
