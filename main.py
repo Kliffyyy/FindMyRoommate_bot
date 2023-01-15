@@ -36,6 +36,7 @@ async def match_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> i
     time.sleep(1)
     reply_keyboard = [["Male", "Female", "Others"]]
     await update.message.reply_text("Question 1: What is your gender? Available options: Male, Female, Others", reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True, input_field_placeholder="What is your gender?"), )
+    # database logging code here
     return GENDER
 
 async def gender(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:   
@@ -44,6 +45,7 @@ async def gender(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     time.sleep(1)
     reply_keyboard = [["CHS", "Business", "Computing", "Dentistry", "CDE", "Law", "Medicine", "Nursing", "Pharmacy", "NUS College", "Music"]]
     await update.message.reply_text("Question 2: What is your faculty? Available options: CHS, Business, Computing, Dentistry, CDE, Law, Medicine, Nursing, Pharmacy, NUS College, Music", reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True, input_field_placeholder="What is your faculty?"), )
+    # database logging code here
     return FACULTY 
 
 async def faculty(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
@@ -52,6 +54,7 @@ async def faculty(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     time.sleep(1)
     reply_keyboard = [["before 9pm", "9-10pm", "10-11pm", "11-12am", "12-1am", "1-2am", "after 2am"]]
     await update.message.reply_text("Question 3: What are your sleeping hours? Available options: before 9pm, 9-10pm, 10-11pm, 11-12am, 12-1am, 1-2am, after 2am", reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True, input_field_placeholder="What are your sleeping hours?"), )
+    # database logging code here
     return SOCIALIZATION
 
 async def socialization(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -60,10 +63,12 @@ async def socialization(update: Update, context: ContextTypes.DEFAULT_TYPE):
     lastName = user.last_name if user.last_name is not None else ''
     firstName = user.first_name + ' ' if user.first_name is not None else ''
     logger.info("Socialization preference of %s%s: %s", firstName, lastName, update.message.text)
+    # database logging code here
 
 async def sleeping_hours(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     user = update.message.from_user
     await update.message.reply_text("Noted on your sleeping hours, " + user.first_name + ". Thank you for filling up the survey. Your response has been recorded.", reply_markup=ReplyKeyboardRemove(), )
+    # database logging code here
     return ConversationHandler.END
 
 async def wrong_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -79,7 +84,7 @@ async def end_conversation(update: Update, context: ContextTypes.DEFAULT_TYPE) -
     return ConversationHandler.END
 
 async def quit(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    user = update.message.from_user
+    # user = update.message.from_user
     await update.message.reply_text("User quitted the conversation.", reply_markup=ReplyKeyboardRemove())
     return ConversationHandler.END
 
@@ -103,7 +108,7 @@ def main():
     app.add_handler(CommandHandler("start", start_command))
     app.add_handler(CommandHandler("help", help_command))
     app.add_handler(CommandHandler("hello", hello))
-    #app.add_handler(CommandHandler("match", match_command))
+    app.add_handler(CommandHandler("match", match_command))
     app.add_handler(conv_handler)
 
     app.add_handler(MessageHandler(filters.COMMAND, wrong_command))
@@ -111,6 +116,6 @@ def main():
 
     app.add_error_handler(error)
 
-    app.run_polling(1.0)
+    app.run_polling()
 
 main()
